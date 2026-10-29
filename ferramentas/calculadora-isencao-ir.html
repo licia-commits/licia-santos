@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Isenção IR</title>
+<link rel="icon" type="image/png" href="../assets/monogram.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2EDE6;--bg-alt:#EAE4DC;--surface:#FFFFFF;--ink:#1A1916;--muted:#5A5650;
+  --gold:#B89A5A;--gold-2:#D4B97A;--dark:#1A1916;--on-dark:#F2EDE6;--ok:#2E7D4F;--err:#A23B2A;
+  --line:#DDD5CA;--chip:#F7F2EA;
+  --display:'Cormorant Garamond',Georgia,serif;--body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141311;--bg-alt:#1F1D1A;--surface:#23211E;--ink:#F2EDE6;--muted:#ADA59A;--dark:#0D0C0B;
+  --line:#3A3630;--chip:#2B2824;--ok:#6FCB94;--err:#E88B7A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141311;--bg-alt:#1F1D1A;--surface:#23211E;--ink:#F2EDE6;--muted:#ADA59A;--dark:#0D0C0B;
+  --line:#3A3630;--chip:#2B2824;--ok:#6FCB94;--err:#E88B7A;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--dark);color:var(--on-dark);padding:28px 16px;text-align:center}
+header small{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;color:var(--gold-2)}
+header h1{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,5vw,2.3rem);margin:6px 0 4px;text-wrap:balance}
+header p{margin:0;opacity:.8;font-size:.92rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;margin-top:18px}
+.card h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.opt{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--chip);cursor:pointer;font-size:.88rem}
+.opt:has(input:checked){border-color:var(--gold)}
+.opt input{accent-color:var(--gold);margin-top:3px}
+label.f{display:block;font-size:.85rem;font-weight:500;color:var(--muted);margin:14px 0 5px}
+input[type=number],select{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus{outline:none;border-color:var(--gold)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+.btn{display:block;width:100%;margin-top:20px;padding:15px;border:0;border-radius:8px;background:var(--gold);color:#1A1916;font:600 1rem var(--body);cursor:pointer}
+.btn:hover{background:var(--gold-2)}
+.err{color:var(--err);font-size:.88rem;margin-top:10px;min-height:1.2em}
+.res{background:var(--dark);color:var(--on-dark);border-radius:10px;padding:24px;margin-top:18px}
+.res h2{font-family:var(--display);color:var(--gold-2);margin:0 0 14px;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpi small{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.kpi b{font-family:var(--display);font-size:1.9rem;color:var(--gold-2)}
+.kpi.main b{font-size:2.3rem;color:#9BE3B3}
+.note{font-size:.82rem;opacity:.85;background:rgba(255,255,255,.07);border-radius:8px;padding:12px;margin-top:14px}
+.wa{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:16px;padding:15px;border-radius:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:600}
+.alert{border-left:4px solid var(--gold);background:var(--chip);padding:12px 14px;border-radius:6px;font-size:.88rem;margin-top:12px}
+.disc{font-size:.76rem;color:var(--muted);text-align:center;margin-top:22px}
+</style>
+<link rel="stylesheet" href="tema-site.css">
+<script src="../analytics.js" defer></script>
+</head>
+<body>
+<script>if(window.self!==window.top)document.body.classList.add("embedded")</script>
+<nav class="topbar"><a href="../index.html" aria-label="Lícia Santos Advocacia, início"><img src="../assets/logo.png" alt="Lícia Santos Advocacia"></a><a href="../index.html" class="topbar__back">← Voltar ao site</a></nav>
+<header>
+  <small>Lícia Santos Advocacia · Direito da Saúde</small>
+  <h1>Você pode ter pago Imposto de Renda que não devia</h1>
+  <p>Simule em 1 minuto quanto pode ser restituído</p>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>1. A doença</h2>
+    <p class="sub">Lista do art. 6º, XIV, da Lei 7.713/1988. Marque se houver diagnóstico.</p>
+    <div class="grid" id="doencas"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. O rendimento</h2>
+    <p class="sub">A isenção vale para aposentadoria, pensão e reforma — não para salário de quem ainda trabalha (STJ, Tema 1037).</p>
+    <label class="f" for="tipo">Tipo de rendimento</label>
+    <select id="tipo">
+      <option value="">Selecione…</option>
+      <option value="apos">Aposentadoria (INSS)</option>
+      <option value="pensao">Pensão por morte</option>
+      <option value="servidor">Aposentadoria de servidor público</option>
+      <option value="militar">Reforma ou pensão militar</option>
+      <option value="previd">Previdência complementar (fundo de pensão)</option>
+      <option value="ativo">Salário (ainda trabalho)</option>
+    </select>
+    <div class="row">
+      <div>
+        <label class="f" for="valor">Valor bruto mensal (R$)</label>
+        <input type="number" id="valor" min="0" step="50" placeholder="ex.: 4500">
+      </div>
+      <div>
+        <label class="f" for="ano">Ano do diagnóstico</label>
+        <select id="ano"></select>
+      </div>
+    </div>
+    <label class="opt" style="margin-top:14px"><input type="checkbox" id="idoso"> <span>Tenho 65 anos ou mais (parcela isenta adicional)</span></label>
+    <button class="btn" id="calc">Calcular restituição estimada</button>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+
+  <div class="res" id="res" hidden>
+    <h2>Estimativa</h2>
+    <div class="kpis">
+      <div class="kpi"><small>IR médio por mês</small><b id="k1">—</b></div>
+      <div class="kpi"><small>Meses recuperáveis</small><b id="k2">—</b></div>
+      <div class="kpi main"><small>Restituição estimada*</small><b id="k3">—</b></div>
+    </div>
+    <div class="note" id="nota"></div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener">Falar com a Dra. Lícia sobre meu caso</a>
+    <p class="note">*Valor sem correção. A restituição judicial é corrigida pela Selic, o que tende a aumentar o total. Cálculo aproximado: considera o mesmo valor mensal em todo o período, inclui o 13º e usa as tabelas da Receita vigentes em cada mês.</p>
+  </div>
+
+  <div class="alert" id="alerta" hidden></div>
+
+  <p class="disc">Ferramenta informativa; não substitui análise jurídica individual.<br>
+  Lícia Santos · OAB/RN 6.470</p>
+</div>
+
+<script>
+const WHATS = '5584999968266';
+const DOENCAS = [
+ 'Neoplasia maligna (câncer)','Cardiopatia grave','Nefropatia grave (doença renal crônica / hemodiálise)',
+ 'Cegueira (inclusive monocular)','Alienação mental','Doença de Parkinson','Esclerose múltipla',
+ 'Espondiloartrose anquilosante','Hepatopatia grave','Paralisia irreversível e incapacitante',
+ 'Doença de Paget (osteíte deformante)','Fibrose cística (mucoviscidose)','Hanseníase',
+ 'Tuberculose ativa','AIDS / HIV','Contaminação por radiação','Moléstia profissional'
+];
+const g = document.getElementById('doencas');
+DOENCAS.forEach(d=>{const l=document.createElement('label');l.className='opt';
+  l.innerHTML=`<input type="checkbox" value="${d}"><span>${d}</span>`;g.appendChild(l)});
+const anoSel=document.getElementById('ano');
+anoSel.innerHTML='<option value="">Selecione…</option>'+Array.from({length:21},(_,i)=>2026-i).map(a=>`<option>${a}</option>`).join('');
+
+// Tabelas mensais da Receita: [limite, aliquota, deducao], ultimo limite = Infinity
+const TAB = [
+ {de:'2015-04',isento:1903.98,f:[[1903.98,0,0],[2826.65,.075,142.80],[3751.05,.15,354.80],[4664.68,.225,636.13],[Infinity,.275,869.36]]},
+ {de:'2023-05',isento:2112.00,f:[[2112.00,0,0],[2826.65,.075,158.40],[3751.05,.15,370.40],[4664.68,.225,651.73],[Infinity,.275,884.96]]},
+ {de:'2024-02',isento:2259.20,f:[[2259.20,0,0],[2826.65,.075,169.44],[3751.05,.15,381.44],[4664.68,.225,662.77],[Infinity,.275,896.00]]},
+ {de:'2025-05',isento:2428.80,f:[[2428.80,0,0],[2826.65,.075,182.16],[3751.05,.15,394.16],[4664.68,.225,675.49],[Infinity,.275,908.73]]}
+];
+function tabelaDe(ym){let t=TAB[0];for(const x of TAB) if(ym>=x.de) t=x;return t}
+function irMes(bruto,ym,idoso){
+  const t=tabelaDe(ym);
+  const base=Math.max(0,bruto-(idoso?t.isento:0));
+  let ir=0;for(const [lim,a,d] of t.f){if(base<=lim){ir=base*a-d;break}}
+  ir=Math.max(0,ir);
+  // Lei 15.270/2025: redutor a partir de jan/2026
+  if(ym>='2026-01'){
+    if(base<=5000) ir=0;
+    else if(base<=7350) ir=Math.max(0,ir-Math.max(0,978.62-0.133145*base));
+  }
+  return ir;
+}
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+document.getElementById('calc').onclick=()=>{
+  const err=document.getElementById('err');err.textContent='';
+  const doencas=[...g.querySelectorAll('input:checked')].map(i=>i.value);
+  const tipo=document.getElementById('tipo').value;
+  const valor=parseFloat(document.getElementById('valor').value);
+  const ano=parseInt(anoSel.value);
+  const idoso=document.getElementById('idoso').checked;
+  const alerta=document.getElementById('alerta');alerta.hidden=true;
+  if(!doencas.length) return err.textContent='Marque ao menos uma doença.';
+  if(!tipo) return err.textContent='Escolha o tipo de rendimento.';
+  if(!(valor>0)) return err.textContent='Informe o valor mensal.';
+  if(!ano) return err.textContent='Informe o ano do diagnóstico.';
+  if(tipo==='ativo'){
+    document.getElementById('res').hidden=true;alerta.hidden=false;
+    alerta.innerHTML='Pelo entendimento do STJ (Tema 1037), a isenção não alcança salário de quem ainda está em atividade. Mas, ao se aposentar, o direito pode surgir — e há outros direitos ligados à doença. <a href="https://wa.me/'+WHATS+'?text='+encodeURIComponent('Olá, Dra. Lícia. Tenho doença grave e ainda trabalho. Quero entender meus direitos.')+'" target="_blank" rel="noopener">Converse com a Dra. Lícia</a>.';
+    return;
+  }
+  // Periodo: ultimos 60 meses (prescricao quinquenal) ou desde o diagnostico
+  const hoje=new Date(2026,9,1); // out/2026
+  let total=0,meses=0;
+  for(let i=1;i<=60;i++){
+    const d=new Date(hoje.getFullYear(),hoje.getMonth()-i,1);
+    if(d.getFullYear()<ano) continue;
+    const ym=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    const v=irMes(valor,ym,idoso);total+=v;meses++;
+    if(d.getMonth()===11) total+=v; // 13º
+  }
+  const media=meses?total/meses:0;
+  document.getElementById('k1').textContent=brl(media);
+  document.getElementById('k2').textContent=meses;
+  document.getElementById('k3').textContent=brl(total);
+  document.getElementById('nota').textContent= total>0
+    ? `Além da restituição, uma vez reconhecida a isenção o desconto mensal de IR deixa de existir sobre esse rendimento. Pelas Súmulas 598 e 627 do STJ, não é obrigatório laudo oficial em juízo nem a doença estar ativa hoje.`
+    : `Pelo valor informado o IR mensal estimado é zero no período. Ainda assim, vale verificar outros rendimentos (previdência complementar, 13º, anos anteriores).`;
+  const msg=`Olá, Dra. Lícia. Usei a calculadora de isenção de IR do site.\n• Doença: ${doencas.join(', ')}\n• Rendimento: ${document.getElementById('tipo').selectedOptions[0].text}, ${brl(valor)}/mês\n• Diagnóstico: ${ano}\n• Estimativa: ${brl(total)}\nGostaria de uma avaliação.`;
+  document.getElementById('wa').href=`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+  const r=document.getElementById('res');r.hidden=false;r.scrollIntoView({behavior:'smooth'});
+  // evento para analytics / Make
+  try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'calc_ir',valor,total:Math.round(total),doencas:doencas.length})}catch(e){}
+};
+</script>
+</body>
+</html>

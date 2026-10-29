@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triagem Negativa de Plano</title>
+<link rel="icon" type="image/png" href="../assets/monogram.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2EDE6;--surface:#FFF;--ink:#1A1916;--muted:#5A5650;--gold:#B89A5A;--gold-2:#D4B97A;--dark:#1A1916;--on-dark:#F2EDE6;--line:#DDD5CA;--chip:#F7F2EA;--urg:#A23B2A;--ok:#2E7D4F;
+--display:'Cormorant Garamond',Georgia,serif;--body:'DM Sans','Helvetica Neue',Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141311;--surface:#23211E;--ink:#F2EDE6;--muted:#ADA59A;--dark:#0D0C0B;--line:#3A3630;--chip:#2B2824;--urg:#E88B7A;--ok:#6FCB94;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141311;--surface:#23211E;--ink:#F2EDE6;--muted:#ADA59A;--dark:#0D0C0B;--line:#3A3630;--chip:#2B2824;--urg:#E88B7A;--ok:#6FCB94;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55}
+.wrap{max-width:720px;margin:0 auto;padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--dark);color:var(--on-dark);padding:28px 16px;text-align:center}
+header small{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;color:var(--gold-2)}
+header h1{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,5vw,2.3rem);margin:6px 0 4px;text-wrap:balance}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;margin-top:18px}
+.step h2{font-family:var(--display);font-weight:600;font-size:1.3rem;margin:0 0 12px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1.5px solid var(--line);border-radius:8px;background:var(--chip);cursor:pointer;margin-top:8px;font-size:.92rem}
+.opt:has(input:checked){border-color:var(--gold)}
+.opt input{accent-color:var(--gold);margin-top:3px}
+.btn{display:block;width:100%;margin-top:20px;padding:15px;border:0;border-radius:8px;background:var(--gold);color:#1A1916;font:600 1rem var(--body);cursor:pointer}
+.res{border-radius:10px;padding:24px;margin-top:18px;background:var(--dark);color:var(--on-dark)}
+.res h2{font-family:var(--display);font-weight:600;margin:0 0 8px;color:var(--gold-2)}
+.tag{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:600;background:rgba(255,255,255,.12)}
+.tag.urg{background:var(--urg);color:#fff}
+.res ul{padding-left:18px;font-size:.92rem}
+.wa{display:flex;justify-content:center;margin-top:16px;padding:15px;border-radius:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:600}
+.disc{font-size:.76rem;color:var(--muted);text-align:center;margin-top:22px}
+.err{color:var(--urg);font-size:.88rem;min-height:1.2em;margin-top:8px}
+</style>
+<link rel="stylesheet" href="tema-site.css">
+<script src="../analytics.js" defer></script>
+</head>
+<body>
+<script>if(window.self!==window.top)document.body.classList.add("embedded")</script>
+<nav class="topbar"><a href="../index.html" aria-label="Lícia Santos Advocacia, início"><img src="../assets/logo.png" alt="Lícia Santos Advocacia"></a><a href="../index.html" class="topbar__back">← Voltar ao site</a></nav>
+<header><small>Lícia Santos Advocacia · Pacientes</small><h1>O plano negou. E agora?</h1><p style="opacity:.8;margin:0">Responda 4 perguntas e veja o caminho mais rápido</p></header>
+<div class="wrap">
+  <div class="step"><h2>1. O que foi negado?</h2>
+    <label class="opt"><input type="radio" name="q1" value="Cirurgia ou internação"> <span>Cirurgia ou internação</span></label>
+    <label class="opt"><input type="radio" name="q1" value="Medicamento (quimio, imunobiológico, alto custo)"> <span>Medicamento — quimioterapia, imunobiológico, alto custo</span></label>
+    <label class="opt"><input type="radio" name="q1" value="Exame ou terapia (sessões, home care, TEA)"> <span>Exame ou terapia (sessões ilimitadas, home care, TEA)</span></label>
+    <label class="opt"><input type="radio" name="q1" value="Órtese/prótese ou material"> <span>Órtese, prótese ou material cirúrgico</span></label>
+    <label class="opt"><input type="radio" name="q1" value="Reembolso ou rede fora da cidade"> <span>Reembolso ou atendimento fora da rede</span></label>
+  </div>
+  <div class="step"><h2>2. Qual foi a justificativa do plano?</h2>
+    <label class="opt"><input type="radio" name="q2" data-w="3" value="Fora do rol da ANS / experimental"> <span>“Não está no rol da ANS” ou “tratamento experimental”</span></label>
+    <label class="opt"><input type="radio" name="q2" data-w="3" value="Carência / doença preexistente"> <span>Carência ou doença preexistente</span></label>
+    <label class="opt"><input type="radio" name="q2" data-w="2" value="Sem autorização / auditoria"> <span>“Em análise” há dias, sem resposta formal</span></label>
+    <label class="opt"><input type="radio" name="q2" data-w="2" value="Contrato não cobre"> <span>“Seu contrato não cobre”</span></label>
+    <label class="opt"><input type="radio" name="q2" data-w="1" value="Não deram justificativa"> <span>Não deram justificativa por escrito</span></label>
+  </div>
+  <div class="step"><h2>3. Urgência</h2>
+    <label class="opt"><input type="radio" name="q3" data-w="4" value="Risco imediato à vida/saúde"> <span>Há risco imediato — o médico pediu com urgência</span></label>
+    <label class="opt"><input type="radio" name="q3" data-w="2" value="Tratamento em curso que não pode parar"> <span>Tratamento já em curso que não pode ser interrompido</span></label>
+    <label class="opt"><input type="radio" name="q3" data-w="1" value="Programado, sem urgência"> <span>Procedimento programado, sem urgência</span></label>
+  </div>
+  <div class="step"><h2>4. O que você já tem em mãos?</h2>
+    <label class="opt"><input type="checkbox" name="q4" value="Laudo/relatório médico"> <span>Laudo ou relatório médico com indicação</span></label>
+    <label class="opt"><input type="checkbox" name="q4" value="Negativa por escrito"> <span>Negativa por escrito (e-mail, app, protocolo)</span></label>
+    <label class="opt"><input type="checkbox" name="q4" value="Contrato e carteirinha"> <span>Contrato do plano e carteirinha</span></label>
+    <label class="opt"><input type="checkbox" name="q4" value="Orçamento"> <span>Orçamento do hospital/farmácia</span></label>
+    <button class="btn" id="go">Ver meu caminho</button><div class="err" id="err"></div>
+  </div>
+
+  <div class="res" id="res" hidden>
+    <h2>Resultado <span class="tag" id="tag"></span></h2>
+    <p id="txt" style="font-size:.95rem"></p>
+    <p style="font-size:.92rem"><b>Documentos que faltam</b></p><ul id="falta"></ul>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener">Enviar meu caso para a Dra. Lícia</a>
+    <p style="font-size:.8rem;opacity:.75;margin-top:12px">Dica: você também pode registrar reclamação na ANS (0800 701 9656 / ans.gov.br). O plano tem prazo para responder e isso documenta a negativa.</p>
+  </div>
+  <p class="disc">Triagem informativa, não substitui análise individual. Lícia Santos · OAB/RN 6.470</p>
+</div>
+<script>
+const WHATS='5584999968266';
+const val=n=>document.querySelector(`input[name=${n}]:checked`);
+document.getElementById('go').onclick=()=>{
+  const err=document.getElementById('err');err.textContent='';
+  const q1=val('q1'),q2=val('q2'),q3=val('q3');
+  if(!q1||!q2||!q3) return err.textContent='Responda as perguntas 1 a 3.';
+  const docs=[...document.querySelectorAll('input[name=q4]:checked')].map(i=>i.value);
+  const score=+q2.dataset.w + +q3.dataset.w;
+  const urgente=q3.dataset.w==='4';
+  const tag=document.getElementById('tag');
+  tag.textContent=urgente?'Caso com urgência':score>=4?'Caso com bons fundamentos':'Caso a avaliar';
+  tag.className='tag'+(urgente?' urg':'');
+  let txt='';
+  if(q2.value.startsWith('Fora do rol')) txt='A Lei 14.454/2022 e a jurisprudência do TJRN tratam o rol da ANS como referência, não como limite: com prescrição médica fundamentada, a negativa costuma ser considerada abusiva.';
+  else if(q2.value.startsWith('Carência')) txt='Em urgência e emergência a carência máxima é de 24 horas (Lei 9.656/98, art. 12, V, c). Doença preexistente só pode ser alegada se houve declaração de saúde e cobertura parcial temporária formalizada.';
+  else if(q2.value.startsWith('Sem autorização')) txt='A ANS fixa prazos máximos de resposta (RN 259/566). Silêncio além do prazo pode ser tratado como negativa — peça o protocolo e a resposta por escrito.';
+  else if(q2.value.startsWith('Contrato')) txt='Cláusulas que excluem tratamento de doença coberta tendem a ser consideradas abusivas (CDC, art. 51). Vale analisar o contrato.';
+  else txt='Exija a negativa por escrito: é direito seu (RN 395/ANS) e é a primeira prova do processo.';
+  if(urgente) txt+=' Em casos urgentes é possível pedir liminar judicial, com decisão frequentemente em 24 a 72 horas.';
+  document.getElementById('txt').textContent=txt;
+  const todos=['Laudo/relatório médico','Negativa por escrito','Contrato e carteirinha','Orçamento'];
+  const falta=todos.filter(d=>!docs.includes(d));
+  document.getElementById('falta').innerHTML=(falta.length?falta:['Você já tem o essencial.']).map(f=>`<li>${f}</li>`).join('');
+  const msg=`Olá, Dra. Lícia. Fiz a triagem no site.\n• Negado: ${q1.value}\n• Motivo do plano: ${q2.value}\n• Urgência: ${q3.value}\n• Já tenho: ${docs.join(', ')||'nada ainda'}\nGostaria de orientação.`;
+  document.getElementById('wa').href=`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+  const r=document.getElementById('res');r.hidden=false;r.scrollIntoView({behavior:'smooth'});
+  try{(window.dataLayer=window.dataLayer||[]).push({event:'triagem_plano',urgente,tipo:q1.value})}catch(e){}
+};
+</script>
+</body>
+</html>
