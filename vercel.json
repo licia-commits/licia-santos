@@ -1,0 +1,22 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "falsocoletivo.liciasantosadv.com.br" }],
+      "destination": "https://liciasantosadv.com.br/pacientes/reajuste-abusivo-falso-coletivo.html",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "glosas.liciasantosadv.com.br" }],
+      "destination": "https://liciasantosadv.com.br/direito-medico/glosas-faturamento.html",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "isencao.liciasantosadv.com.br" }],
+      "destination": "https://liciasantosadv.com.br/pacientes/isencao-imposto-de-renda.html",
+      "permanent": false
+    }
+  ]
+}

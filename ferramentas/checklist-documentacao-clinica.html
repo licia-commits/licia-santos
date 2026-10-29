@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de documentação da clínica</title>
+<link rel="icon" type="image/png" href="../assets/monogram.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2EDE6;--bg-alt:#EAE4DC;--surface:#FFFFFF;--ink:#1A1916;--muted:#5A5650;
+  --gold:#B89A5A;--gold-2:#D4B97A;--dark:#1A1916;--on-dark:#F2EDE6;--ok:#2E7D4F;--err:#A23B2A;
+  --line:#DDD5CA;--chip:#F7F2EA;
+  --display:'Cormorant Garamond',Georgia,serif;--body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--dark);color:var(--on-dark);padding:28px 16px;text-align:center}
+header small{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;color:var(--gold-2)}
+header h1{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,5vw,2.3rem);margin:6px 0 4px;text-wrap:balance}
+header p{margin:0;opacity:.8;font-size:.92rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;margin-top:18px}
+.card h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--chip);cursor:pointer;font-size:.92rem;margin-top:8px}
+.opt:has(input:checked){border-color:var(--gold)}
+.opt input{accent-color:var(--gold);margin-top:3px;flex:none}
+.opt small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.btn{display:block;width:100%;margin-top:20px;padding:15px;border:0;border-radius:8px;background:var(--gold);color:#1A1916;font:600 1rem var(--body);cursor:pointer}
+.btn:hover{background:var(--gold-2)}
+.err{color:var(--err);font-size:.88rem;margin-top:10px;min-height:1.2em}
+.res{background:var(--dark);color:var(--on-dark);border-radius:10px;padding:24px;margin-top:18px}
+.res h2{font-family:var(--display);color:var(--gold-2);margin:0 0 6px;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpi small{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.kpi b{font-family:var(--display);font-size:1.9rem;color:var(--gold-2)}
+.faltas{margin-top:16px;border-top:1px solid rgba(255,255,255,.14)}
+.faltas div{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:.9rem}
+.faltas div small{display:block;opacity:.7;margin-top:3px}
+.note{font-size:.82rem;opacity:.85;background:rgba(255,255,255,.07);border-radius:8px;padding:12px;margin-top:14px}
+.wa{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:16px;padding:15px;border-radius:8px;background:#25D366;color:#fff;text-decoration:none;font-weight:600}
+.disc{font-size:.76rem;color:var(--muted);text-align:center;margin-top:22px}
+</style>
+<link rel="stylesheet" href="tema-site.css">
+</head>
+<body>
+<script>if(window.self!==window.top)document.body.classList.add("embedded")</script>
+<nav class="topbar"><a href="../index.html" aria-label="Lícia Santos Advocacia, início"><img src="../assets/logo.png" alt="Lícia Santos Advocacia"></a><a href="../index.html" class="topbar__back">← Voltar ao site</a></nav>
+<header>
+  <small>Lícia Santos Advocacia · Médicos e Clínicas</small>
+  <h1>A documentação da sua clínica sustenta uma cobrança e uma defesa?</h1>
+  <p>Marque o que já existe. Dez itens; dois minutos. Nenhum dado é guardado.</p>
+</header>
+<div class="wrap">
+  <div class="card">
+    <h2>O que a sua clínica já tem</h2>
+    <p class="sub">Marque somente o que está implantado e em uso hoje, não o que está "quase".</p>
+    <div id="itens"></div>
+    <button class="btn" id="go">Ver o resultado</button>
+    <div class="err" id="err" aria-live="polite"></div>
+  </div>
+  <div class="res" id="res" hidden>
+    <h2 id="titulo"></h2>
+    <div class="kpis"><div class="kpi"><small>Itens em dia</small><b id="ok"></b></div><div class="kpi"><small>Lacunas</small><b id="falta"></b></div></div>
+    <div class="faltas" id="lista"></div>
+    <div class="note">Resultado orientativo, com base legal conferida em 28/10/2026 (Lei 13.787/2018, Res. CFM 1.821/2007, LGPD, Lei 6.437/1977, RDC 63/2011, Lei 14.510/2022, Res. CFM 2.314/2022 e 2.336/2023). Cada clínica é analisada individualmente.</div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener">Enviar resultado para a Dra. Lícia</a>
+  </div>
+  <p class="disc">Lícia Santos · OAB/RN 6.470. Conteúdo informativo; não substitui a análise do caso.</p>
+</div>
+<script>
+const WHATS='5584999968266';
+const I=[
+ {t:'Prontuário com anamnese, evolução, prescrição e assinatura em todo atendimento',p:'É a prova do serviço: sem registro, a operadora glosa e o juiz presume que não foi feito.'},
+ {t:'Termo de consentimento específico por procedimento, com riscos e alternativas',p:'Consentimento genérico não comprova o dever de informar; o ônus dessa prova é da clínica (STJ).'},
+ {t:'Política de guarda de 20 anos e comissão de revisão de prontuários',p:'A Lei 13.787/2018 só permite eliminar ou descartar papel com esse controle documentado.'},
+ {t:'Digitalização com certificado ICP-Brasil e sistema com controle de acesso',p:'Garante o mesmo valor probatório do original e impede alteração indevida.'},
+ {t:'Mapeamento de dados e base legal da LGPD definida (tutela da saúde) para cada fluxo',p:'A LGPD cobra que a clínica saiba o que trata, por quê e por quanto tempo.'},
+ {t:'Contratos com laboratórios, software e operadoras com cláusula de proteção de dados',p:'Compartilhar dado de saúde sem regra escrita expõe a clínica à sanção da ANPD.'},
+ {t:'Alvará sanitário vigente e licenças de equipamentos renovadas',p:'Funcionar sem licença está no rol de infrações da Lei 6.437/1977.'},
+ {t:'POPs e registros de limpeza, resíduos e manutenção',p:'São os itens que a fiscalização pede primeiro (RDC 63/2011).'},
+ {t:'Protocolo de telemedicina: identificação, consentimento e registro no prontuário',p:'A Lei 14.510/2022 e o CFM exigem; sem isso a teleconsulta não se prova.'},
+ {t:'Revisão da publicidade e das redes sociais pela Res. CFM 2.336/2023',p:'Promessa de resultado e "antes e depois" fora da regra geram processo ético.'},
+];
+const box=document.getElementById('itens');
+box.innerHTML=I.map((x,i)=>`<label class="opt"><input type="checkbox" value="${i}"><span>${x.t}<small>${x.p}</small></span></label>`).join('');
+document.getElementById('go').addEventListener('click',()=>{
+  const marcados=new Set([...box.querySelectorAll('input:checked')].map(i=>+i.value));
+  const faltas=I.map((x,i)=>i).filter(i=>!marcados.has(i));
+  const n=faltas.length;
+  const titulo = n<=3 ? 'Base sólida: revisar os pontos abertos' : n<=6 ? 'Lacunas que já aparecem em glosa e fiscalização' : 'Risco documental alto: diagnóstico urgente';
+  document.getElementById('titulo').textContent=titulo;
+  document.getElementById('ok').textContent=10-n;
+  document.getElementById('falta').textContent=n;
+  document.getElementById('lista').innerHTML=n? faltas.map(i=>`<div>${I[i].t}<small>${I[i].p}</small></div>`).join('') : '<div>Todos os dez itens estão marcados. O próximo passo é a revisão periódica.</div>';
+  const msg=`Olá, Dra. Lícia. Fiz o checklist de documentação da clínica no site.\n• Itens em dia: ${10-n} de 10\n• Lacunas: ${n? faltas.map(i=>I[i].t).join('; ') : 'nenhuma'}\nQuero agendar o diagnóstico documental.`;
+  document.getElementById('wa').href=`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+  const r=document.getElementById('res');r.hidden=false;r.scrollIntoView({behavior:'smooth'});
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'checklist_documentacao',lacunas:n});
+});
+</script>
+</body>
+</html>

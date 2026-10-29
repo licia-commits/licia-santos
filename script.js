@@ -14,10 +14,12 @@
   });
 
   /* ---------- Ícone de WhatsApp fornecido para os CTAs ---------- */
+  // Caminho resolvido a partir do próprio script.js, para funcionar também nas páginas em subpastas.
+  const iconSrc = new URL('assets/Property 1=Bold.svg', (document.currentScript && document.currentScript.src) || location.href).href;
   document.querySelectorAll('svg.whatsapp-icon').forEach(function (icon) {
     const image = document.createElement('img');
     image.className = 'whatsapp-icon';
-    image.src = 'assets/Property 1=Bold.svg';
+    image.src = iconSrc;
     image.alt = '';
     image.setAttribute('aria-hidden', 'true');
     icon.replaceWith(image);
@@ -29,7 +31,8 @@
   let navTicking = false;
   const themeColor = document.querySelector('meta[name="theme-color"]');
   function updateNav() {
-    const scrolled = window.scrollY > navScrollOffset;
+    // Nas páginas de caminho não há foto no topo: a navegação fica sempre no modo claro.
+    const scrolled = window.scrollY > navScrollOffset || document.body.classList.contains('hub-page');
     nav.classList.toggle('glass', scrolled);
     if (themeColor) themeColor.content = scrolled ? '#FBFAF7' : '#14161A';
     navTicking = false;
